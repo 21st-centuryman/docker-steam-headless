@@ -409,27 +409,26 @@ RUN \
     echo
 
 RUN \
-    echo "PERSONAL:" \
-    echo "**** Downloading more personal stuff ****" \
-	    && pacman -Syu --noconfirm --needed \
-	    fuse \
-	    steam \
-	    firefox \
-	    lutris \
-	    wine \
-        ark \
-        unrar \
-	    cmake \
-	    lib32-libpulse \
-    && \
-	echo "**** AUR: Downloading emulation stuff ****" \
-	    && yay -Syu --noconfirm --needed \
-	    libc++ \
-    && \
-    echo "**** Section cleanup ****" \
-	    && pacman -Scc --noconfirm \
-        && rm -fr /var/lib/pacman/sync/* \
-    && \
+echo "PERSONAL:" \
+echo "**** Downloading emulation stuff ****" \
+    && pacman -Syu --noconfirm --needed \
+    fuse \
+    sdl2 \
+    qt6-base \
+    qt6-multimedia \
+    qt6-multimedia-ffmpeg \
+    base-devel \
+    clang \
+    cmake \
+&& \
+echo "**** AUR: Downloading emulation stuff ****" \
+    && yay -Syu --noconfirm --needed \
+    libc++ \
+&& \
+echo "**** Section cleanup ****" \
+    && pacman -Scc --noconfirm \
+    && rm -fr /var/lib/pacman/sync/* \
+&& \
     echo
 
 RUN \
@@ -441,8 +440,8 @@ RUN \
 	    firefox \
 	    lutris \
 	    wine \
-            ark \
-            unrar \
+        ark \
+        unrar \
 	    cmake \
 	    lib32-libpulse \
     && \
