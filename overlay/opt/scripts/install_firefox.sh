@@ -14,12 +14,8 @@ custom_webbrowser="$(cat <<EOF
 NoDisplay=true
 Version=1.0
 Encoding=UTF-8
-Type=X-XFCE-Helper
-X-XFCE-Category=WebBrowser
-X-XFCE-CommandsWithParameter=${USER_HOME:?}/.local/share/flatpak/exports/bin/org.mozilla.firefox "%s"
 Icon=org.mozilla.firefox
 Name=org.mozilla.firefox
-X-XFCE-Commands=${USER_HOME:?}/.local/share/flatpak/exports/bin/org.mozilla.firefox
 EOF
 )"
 if [[ ! -f "${USER_HOME:?}/.local/share/xfce4/helpers/custom-WebBrowser.desktop"  ]]; then

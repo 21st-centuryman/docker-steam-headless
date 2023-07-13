@@ -387,7 +387,8 @@ RUN \
 
 # Personal
 RUN \
-    echo "PERSONAL: **** Install KDE plasma ****" \
+    echo "PERSONAL:" \
+    echo "**** Install KDE plasma ****" \
 	    && pacman -Syu --noconfirm --needed \
             kde-system-meta \
 	    discover \
@@ -399,6 +400,30 @@ RUN \
         && rm -fr /var/lib/pacman/sync/* \
     && \
     echo
+
+RUN \
+    echo "PERSONAL:" \
+    echo "**** Downloading emulation stuff ****" \
+	    && pacman -Syu --noconfirm --needed \
+	    fuse \
+	    sdl2 \
+	    qt6-base \
+	    qt6-multimedia \
+	    qt6-multimedia-ffmpeg \
+	    base-devel \
+	    clang \
+	    cmake \
+    && \
+	echo "**** AUR: Downloading emulation stuff ****" \
+	    && yay -Syu --noconfirm --needed \
+	    libc++ \
+    && \
+    echo "**** Section cleanup ****" \
+	    && pacman -Scc --noconfirm \
+        && rm -fr /var/lib/pacman/sync/* \
+    && \
+    echo
+
 
 # Add FS overlay
 COPY overlay /
