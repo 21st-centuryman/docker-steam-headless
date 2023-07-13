@@ -417,6 +417,30 @@ RUN \
 	    firefox \
 	    lutris \
 	    wine \
+        ark \
+        unrar \
+	    cmake \
+	    lib32-libpulse \
+    && \
+	echo "**** AUR: Downloading emulation stuff ****" \
+	    && yay -Syu --noconfirm --needed \
+	    libc++ \
+    && \
+    echo "**** Section cleanup ****" \
+	    && pacman -Scc --noconfirm \
+        && rm -fr /var/lib/pacman/sync/* \
+    && \
+    echo
+
+RUN \
+    echo "PERSONAL:" \
+    echo "**** Downloading more personal stuff ****" \
+	    && pacman -Syu --noconfirm --needed \
+	    fuse \
+	    steam \
+	    firefox \
+	    lutris \
+	    wine \
             ark \
             unrar \
 	    cmake \
@@ -435,12 +459,6 @@ RUN \
 
 # Add FS overlay
 COPY overlay /
-
-RUN \
-    echo "**** Setup Steam Supervisor ****" \
-            && sed -i 's#/usr/games/steam#/usr/bin/steam#g' /etc/supervisor.d/steam.ini \
-    && \
-    echo
 
 # Set display environment variables
 ENV \
