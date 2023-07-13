@@ -37,8 +37,8 @@ if [[ ! -f /tmp/.desktop-apps-updated.lock ]]; then
     touch /tmp/.desktop-apps-updated.lock
 fi
 # Run the desktop environment
-echo "**** Starting Xfce4 ****"
-/usr/bin/startxfce4 &
+echo "**** Starting Desktop Enviornment ****"
+/usr/bin/startplasma-x11 &
 desktop_pid=$!
 
 

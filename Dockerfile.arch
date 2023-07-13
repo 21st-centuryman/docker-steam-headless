@@ -385,6 +385,21 @@ RUN \
     && \
     echo
 
+# Personal
+RUN \
+    echo "PERSONAL: **** Install KDE plasma ****" \
+	    && pacman -Syu --noconfirm --needed \
+            kde-system-meta \
+	    discover \
+            konsole \
+	    plasma-desktop \
+    && \
+    echo "**** Section cleanup ****" \
+	    && pacman -Scc --noconfirm \
+        && rm -fr /var/lib/pacman/sync/* \
+    && \
+    echo
+
 # Add FS overlay
 COPY overlay /
 
