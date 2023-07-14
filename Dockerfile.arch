@@ -393,7 +393,8 @@ RUN \
             kde-system-meta \
 	    discover \
             konsole \
-	    plasma-desktop \
+	    plasma-desktop \ 
+	    plasma \
     && \
     echo "**** Section cleanup ****" \
 	    && pacman -Scc --noconfirm \
