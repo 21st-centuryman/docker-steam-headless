@@ -257,36 +257,29 @@ RUN \
 # Note: Debian Bullseye had bubblewrap v0.4.1 which worked fine in the Nvidia docker runtime
 #   At the moment this is only working beacuse /proc is being mounted again in 10-setup_user.sh
 #   Need to find a better solution for this...
-ARG BUBBLEWRAP_VERSION=0.8.0
-ENV \
-    XDG_DATA_DIRS="/home/default/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/"
-RUN \
-    echo "**** Install flatpak support ****" \
-	    && pacman -Syu --noconfirm --needed \
-            flatpak \
-            gnome-software \
-            xdg-desktop-portal-gtk \
-    && \
-    #echo "**** Build and install custom bubblewrap ****" \
-    #    && cd /tmp \
-    #    && wget -O /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz https://github.com/containers/bubblewrap/releases/download/v${BUBBLEWRAP_VERSION:?}/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
-    #    && tar -xvf /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
-    #    && cd /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?} \
-    #    && sed -i 's|die ("Unexpected capabilities but not setuid, old file caps config?");|printf ("Unexpected capabilities but not setuid, old file caps config?");|' ./bubblewrap.c \
-    #    && ./autogen.sh \
-    #    && make clean \
-    #    && make \
-    #    && make install
-    #&& \
-    echo "**** Configure flatpak ****" \
-        && chmod u-s /usr/bin/bwrap \
-        && flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo \
-    && \
-    echo "**** Section cleanup ****" \
-	    && pacman -Scc --noconfirm \
-        && rm -fr /var/lib/pacman/sync/* \
-    && \
-    echo
+#ARG BUBBLEWRAP_VERSION=0.8.0
+#RUN \
+#    echo "**** Install flatpak support ****" \
+#	    && pacman -Syu --noconfirm --needed \
+#            flatpak \
+#            xdg-desktop-portal-gtk \
+#    && \
+#    #echo "**** Build and install custom bubblewrap ****" \
+#    #    && cd /tmp \
+#    #    && wget -O /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz https://github.com/containers/bubblewrap/releases/download/v${BUBBLEWRAP_VERSION:?}/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
+#    #    && tar -xvf /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
+#    #    && cd /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?} \
+#    #    && sed -i 's|die ("Unexpected capabilities but not setuid, old file caps config?");|printf ("Unexpected capabilities but not setuid, old file caps config?");|' ./bubblewrap.c \
+#    #    && ./autogen.sh \
+#    #    && make clean \
+#    #    && make \
+#    #    && make install
+#    #&& \
+#    echo "**** Section cleanup ****" \
+#	    && pacman -Scc --noconfirm \
+#        && rm -fr /var/lib/pacman/sync/* \
+#    && \
+#    echo
 
 # Install noVNC
 # TODO: Add nginx or remove the whole proxy setup and just connect directly for audio (I think that is the better option)
@@ -397,8 +390,10 @@ RUN \
     echo "PERSONAL:" \
     echo "**** Install KDE plasma ****" \
 	    && pacman -Syu --noconfirm --needed \
-            kde-system-meta \
-            konsole \
+        kde-system-meta \
+	    discover \
+        ark \
+        konsole \
 	    plasma-desktop \ 
 	    plasma \
     && \
@@ -445,10 +440,6 @@ RUN \
 	    cmake \
 	    lib32-libpulse \
     && \
-	echo "**** AUR: Downloading emulation stuff ****" \
-	    && yay -Syu --noconfirm --needed \
-	    libc++ \
-    && \
     echo "**** Section cleanup ****" \
 	    && pacman -Scc --noconfirm \
         && rm -fr /var/lib/pacman/sync/* \
@@ -467,6 +458,10 @@ ENV \
     DISPLAY_SIZEW="1600" \
     DISPLAY_VIDEO_PORT="DFP" \
     DISPLAY=":55"
+ENV \
+    XORG_SOCKET_DIR="/tmp/.X11-unix" \
+    XDG_RUNTIME_DIR="/tmp/.X11-unix/run"
+    #XDG_DATA_DIRS="/home/default/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/"
 ENV \
     NVIDIA_DRIVER_CAPABILITIES="all" \
     NVIDIA_VISIBLE_DEVICES="all"
