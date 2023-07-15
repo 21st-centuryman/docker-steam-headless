@@ -16,17 +16,17 @@ export nvidia_gpu_hex_id=$(nvidia-smi --format=csv --query-gpu=pci.bus_id --id="
 export monitor_connected=$(cat /sys/class/drm/card*/status | awk '/^connected/ { print $1; }' | head -n1)
 
 # Fech current configuration (if modified in UI)
-if [ -f "${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml" ]; then
-    new_display_sizew=$(cat ${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml | grep Resolution | head -n1 | grep -oP '(?<=value=").*?(?=")' | cut -d'x' -f1)
-    new_display_sizeh=$(cat ${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml | grep Resolution | head -n1 | grep -oP '(?<=value=").*?(?=")' | cut -d'x' -f2)
-    new_display_refresh=$(cat ${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml | grep RefreshRate | head -n1 | grep -oP '(?<=value=").*?(?=")' | cut -d'x' -f2)
-    if [ "${new_display_sizew}x" != "x" ] && [ "${new_display_sizeh}x" != "x" ] && [ "${new_display_refresh}x" != "x" ]; then
-        export DISPLAY_SIZEW="${new_display_sizew}"
-        export DISPLAY_SIZEH="${new_display_sizeh}"
-        # Round refresh rate to closest multiple of 60
-        export DISPLAY_REFRESH="$(echo ${new_display_refresh} | awk '{rounded = int(($1 + 30) / 60) * 60; if (rounded < 30) rounded += 60; print rounded}')"
-    fi
-fi
+#if [ -f "${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml" ]; then
+#    new_display_sizew=$(cat ${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml | grep Resolution | head -n1 | grep -oP '(?<=value=").*?(?=")' | cut -d'x' -f1)
+#    new_display_sizeh=$(cat ${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml | grep Resolution | head -n1 | grep -oP '(?<=value=").*?(?=")' | cut -d'x' -f2)
+#    new_display_refresh=$(cat ${USER_HOME}/.config/xfce4/xfconf/xfce-perchannel-xml/displays.xml | grep RefreshRate | head -n1 | grep -oP '(?<=value=").*?(?=")' | cut -d'x' -f2)
+#    if [ "${new_display_sizew}x" != "x" ] && [ "${new_display_sizeh}x" != "x" ] && [ "${new_display_refresh}x" != "x" ]; then
+#        export DISPLAY_SIZEW="${new_display_sizew}"
+#        export DISPLAY_SIZEH="${new_display_sizeh}"
+#        # Round refresh rate to closest multiple of 60
+#        export DISPLAY_REFRESH="$(echo ${new_display_refresh} | awk '{rounded = int(($1 + 30) / 60) * 60; if (rounded < 30) rounded += 60; print rounded}')"
+#    fi
+#fi
 
 # Configure a NVIDIA X11 config
 function configure_nvidia_x_server {

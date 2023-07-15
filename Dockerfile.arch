@@ -251,30 +251,29 @@ RUN \
 # Note: Debian Bullseye had bubblewrap v0.4.1 which worked fine in the Nvidia docker runtime
 #   At the moment this is only working beacuse /proc is being mounted again in 10-setup_user.sh
 #   Need to find a better solution for this...
-ARG BUBBLEWRAP_VERSION=0.8.0
-RUN \
-    echo "**** Install flatpak support ****" \
-	    && pacman -Syu --noconfirm --needed \
-            flatpak \
-            gnome-software \
-            xdg-desktop-portal-gtk \
-    && \
-    #echo "**** Build and install custom bubblewrap ****" \
-    #    && cd /tmp \
-    #    && wget -O /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz https://github.com/containers/bubblewrap/releases/download/v${BUBBLEWRAP_VERSION:?}/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
-    #    && tar -xvf /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
-    #    && cd /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?} \
-    #    && sed -i 's|die ("Unexpected capabilities but not setuid, old file caps config?");|printf ("Unexpected capabilities but not setuid, old file caps config?");|' ./bubblewrap.c \
-    #    && ./autogen.sh \
-    #    && make clean \
-    #    && make \
-    #    && make install
-    #&& \
-    echo "**** Section cleanup ****" \
-	    && pacman -Scc --noconfirm \
-        && rm -fr /var/lib/pacman/sync/* \
-    && \
-    echo
+#ARG BUBBLEWRAP_VERSION=0.8.0
+#RUN \
+#    echo "**** Install flatpak support ****" \
+#	    && pacman -Syu --noconfirm --needed \
+#            flatpak \
+#            xdg-desktop-portal-gtk \
+#    && \
+#    #echo "**** Build and install custom bubblewrap ****" \
+#    #    && cd /tmp \
+#    #    && wget -O /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz https://github.com/containers/bubblewrap/releases/download/v${BUBBLEWRAP_VERSION:?}/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
+#    #    && tar -xvf /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
+#    #    && cd /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?} \
+#    #    && sed -i 's|die ("Unexpected capabilities but not setuid, old file caps config?");|printf ("Unexpected capabilities but not setuid, old file caps config?");|' ./bubblewrap.c \
+#    #    && ./autogen.sh \
+#    #    && make clean \
+#    #    && make \
+#    #    && make install
+#    #&& \
+#    echo "**** Section cleanup ****" \
+#	    && pacman -Scc --noconfirm \
+#        && rm -fr /var/lib/pacman/sync/* \
+#    && \
+#    echo
 
 # TODO: Add support for dind
 # Ref: 
@@ -392,6 +391,8 @@ RUN \
 	    && pacman -Syu --noconfirm --needed \
             kde-system-meta \
 	    discover \
+	    steam \
+	    chromium \
             konsole \
 	    plasma-desktop \ 
 	    plasma \
@@ -407,12 +408,6 @@ RUN \
     echo "**** Downloading emulation stuff ****" \
 	    && pacman -Syu --noconfirm --needed \
 	    fuse \
-	    sdl2 \
-	    qt6-base \
-	    qt6-multimedia \
-	    qt6-multimedia-ffmpeg \
-	    base-devel \
-	    clang \
 	    cmake \
     && \
 	echo "**** AUR: Downloading emulation stuff ****" \
@@ -439,8 +434,8 @@ ENV \
     DISPLAY=":55"
 ENV \
     XORG_SOCKET_DIR="/tmp/.X11-unix" \
-    XDG_RUNTIME_DIR="/tmp/.X11-unix/run" \
-    XDG_DATA_DIRS="/home/default/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/"
+    XDG_RUNTIME_DIR="/tmp/.X11-unix/run"
+    #XDG_DATA_DIRS="/home/default/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/"
 ENV \
     NVIDIA_DRIVER_CAPABILITIES="all" \
     NVIDIA_VISIBLE_DEVICES="all"
