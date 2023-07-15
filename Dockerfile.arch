@@ -390,7 +390,6 @@ RUN \
     echo "**** Install KDE plasma ****" \
 	    && pacman -Syu --noconfirm --needed \
             kde-system-meta \
-	    discover \
 	    steam \
 	    chromium \
             konsole \
