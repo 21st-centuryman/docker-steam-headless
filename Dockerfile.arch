@@ -161,6 +161,9 @@ RUN \
     echo
 
 # Install X Server requirements
+ENV \
+    XORG_SOCKET_DIR="/tmp/.X11-unix" \
+    XDG_RUNTIME_DIR="/tmp/.X11-unix/run"
 RUN \
     echo "**** Install X Server requirements ****" \
 	    && pacman -Syu --noconfirm --needed \
@@ -196,6 +199,9 @@ RUN \
     echo
 
 # Install audio requirements
+ENV \
+    PULSE_SOCKET_DIR="/tmp/pulse" \
+    PULSE_SERVER="unix:/tmp/pulse/pulse-socket"
 RUN \
     echo "**** Install X Server requirements ****" \
 	    && pacman -Syu --noconfirm --needed \
@@ -250,30 +256,26 @@ RUN \
 # Note: Debian Bullseye had bubblewrap v0.4.1 which worked fine in the Nvidia docker runtime
 #   At the moment this is only working beacuse /proc is being mounted again in 10-setup_user.sh
 #   Need to find a better solution for this...
-#ARG BUBBLEWRAP_VERSION=0.8.0
-#RUN \
-#    echo "**** Install flatpak support ****" \
-#	    && pacman -Syu --noconfirm --needed \
-#            flatpak \
-#            xdg-desktop-portal-gtk \
-#    && \
-#    #echo "**** Build and install custom bubblewrap ****" \
-#    #    && cd /tmp \
-#    #    && wget -O /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz https://github.com/containers/bubblewrap/releases/download/v${BUBBLEWRAP_VERSION:?}/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
-#    #    && tar -xvf /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
-#    #    && cd /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?} \
-#    #    && sed -i 's|die ("Unexpected capabilities but not setuid, old file caps config?");|printf ("Unexpected capabilities but not setuid, old file caps config?");|' ./bubblewrap.c \
-#    #    && ./autogen.sh \
-#    #    && make clean \
-#    #    && make \
-#    #    && make install
-#    #&& \
-#    echo "**** Section cleanup ****" \
-#	    && pacman -Scc --noconfirm \
-#        && rm -fr /var/lib/pacman/sync/* \
-#    && \
-#    echo
-
+ARG BUBBLEWRAP_VERSION=0.8.0
+ENV \
+    XDG_DATA_DIRS="/home/default/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/"
+RUN \
+    echo "**** Install flatpak support ****" \
+	    && pacman -Syu --noconfirm --needed \
+            flatpak \
+            gnome-software \
+            xdg-desktop-portal-gtk \
+    && \
+    #echo "**** Build and install custom bubblewrap ****" \
+    #    && cd /tmp \
+    #    && wget -O /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz https://github.com/containers/bubblewrap/releases/download/v${BUBBLEWRAP_VERSION:?}/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
+    #    && tar -xvf /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?}.tar.xz \
+    #    && cd /tmp/bubblewrap-${BUBBLEWRAP_VERSION:?} \
+    #    && sed -i 's|die ("Unexpected capabilities but not setuid, old file caps config?");|printf ("Unexpected capabilities but not setuid, old file caps config?");|' ./bubblewrap.c \
+    #    && ./autogen.sh \
+    #    && make clean \
+    #    && make \
+    #    && make install
 # TODO: Add support for dind
 # Ref: 
 #   - https://github.com/docker-library/docker/blob/master/20.10/dind/Dockerfile
@@ -436,17 +438,8 @@ ENV \
     DISPLAY_VIDEO_PORT="DFP" \
     DISPLAY=":55"
 ENV \
-    XORG_SOCKET_DIR="/tmp/.X11-unix" \
-    XDG_RUNTIME_DIR="/tmp/.X11-unix/run"
-    #XDG_DATA_DIRS="/home/default/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/"
-ENV \
     NVIDIA_DRIVER_CAPABILITIES="all" \
     NVIDIA_VISIBLE_DEVICES="all"
-
-# Set pulseaudio environment variables
-ENV \
-    PULSE_SOCKET_DIR="/tmp/pulse" \
-    PULSE_SERVER="unix:/tmp/pulse/pulse-socket"
 
 # Set container configuration environment variables
 ENV \
@@ -455,12 +448,13 @@ ENV \
     ENABLE_VNC_AUDIO="true" \
     NEKO_PASSWORD=neko \
     NEKO_PASSWORD_ADMIN=admin \
+    ENABLE_STEAM="true" \
+    STEAM_ARGS="-silent" \
     ENABLE_SUNSHINE="false" \
     ENABLE_EVDEV_INPUTS="false"
 
 # Configure required ports
 ENV \
-    PORT_SSH="" \
     PORT_NOVNC_WEB="8083" \
     NEKO_NAT1TO1=""
 
