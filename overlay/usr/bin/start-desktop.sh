@@ -41,10 +41,5 @@ echo "**** Starting Desktop Enviornment ****"
 /usr/bin/startplasma-x11 &
 desktop_pid=$!
 
-if [ "${ENABLE_STEAM:-}" = "true" ]; then
-    echo "Start Steam service"
-    sudo supervisorctl start steam
-fi
-
 # WAIT FOR CHILD PROCESS:
 wait "$desktop_pid"
