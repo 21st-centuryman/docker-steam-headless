@@ -416,10 +416,6 @@ echo "**** Downloading emulation stuff ****" \
     clang \
     cmake \
 && \
-echo "**** AUR: Downloading emulation stuff ****" \
-    && yay -Syu --noconfirm --needed \
-    libc++ \
-&& \
 echo "**** Section cleanup ****" \
     && pacman -Scc --noconfirm \
     && rm -fr /var/lib/pacman/sync/* \
