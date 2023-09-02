@@ -389,8 +389,6 @@ RUN \
     echo "**** Install KDE plasma ****" \
 	    && pacman -Syu --noconfirm --needed \
             kde-system-meta \
-	    steam \
-	    chromium \
             konsole \
 	    plasma-desktop \ 
 	    plasma \
@@ -403,9 +401,13 @@ RUN \
 
 RUN \
     echo "PERSONAL:" \
-    echo "**** Downloading emulation stuff ****" \
+    echo "**** Downloading more personal stuff ****" \
 	    && pacman -Syu --noconfirm --needed \
 	    fuse \
+	    steam \
+	    firefox \
+	    lutris \
+	    wine \
 	    cmake \
     && \
 	echo "**** AUR: Downloading emulation stuff ****" \
