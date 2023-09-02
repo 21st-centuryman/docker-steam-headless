@@ -1,12 +1,5 @@
-
-echo "Downloading steam, fuse, and chromium" 
-	pacman -Syu --noconfirm \
-	steam \
-	chromium
-
-echo "**** Section cleanup ****"
-	pacman -Scc --noconfirm \
-	&& rm -fr /var/lib/pacman/sync/* 
+echo "**** Fix mtu issues ****"
+	ifconfig enp6s0 mtu 1500
 
 echo "*** Changing default shell ***"
 	pacman -Syu --noconfirm \
