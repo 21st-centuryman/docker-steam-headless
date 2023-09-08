@@ -408,7 +408,10 @@ RUN \
 	    firefox \
 	    lutris \
 	    wine \
+            ark \
+            unrar \
 	    cmake \
+	    lib32-libpulse \
     && \
 	echo "**** AUR: Downloading emulation stuff ****" \
 	    && yay -Syu --noconfirm --needed \
