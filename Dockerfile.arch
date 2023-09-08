@@ -415,6 +415,7 @@ echo "**** Downloading emulation stuff ****" \
     base-devel \
     clang \
     cmake \
+	lib32-libpulse \
 && \
 echo "**** Section cleanup ****" \
     && pacman -Scc --noconfirm \
@@ -434,7 +435,6 @@ RUN \
         ark \
         unrar \
 	    cmake \
-	    lib32-libpulse \
     && \
     echo "**** Section cleanup ****" \
 	    && pacman -Scc --noconfirm \
