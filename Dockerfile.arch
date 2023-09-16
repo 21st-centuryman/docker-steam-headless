@@ -415,7 +415,7 @@ echo "**** Downloading emulation stuff ****" \
     base-devel \
     clang \
     cmake \
-	lib32-libpulse \
+    lib32-libpulse \
 && \
 echo "**** Section cleanup ****" \
     && pacman -Scc --noconfirm \
