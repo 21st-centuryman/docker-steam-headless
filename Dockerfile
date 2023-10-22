@@ -429,6 +429,7 @@ RUN \
 	    && pacman -Syu --noconfirm --needed \
 	    fuse \
 	    steam \
+     	    steam-native-runtime \ 
 	    firefox \
 	    lutris \
 	    wine \
